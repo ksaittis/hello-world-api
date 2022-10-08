@@ -1,0 +1,16 @@
+#  Local .terraform directories
+**/.terraform/*
+
+# .tfstate files - uncomment when remote state is working
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# .tfvars files
+*.tfvars
+
+# IDE files
+*.code-workspace
+.project
+.settings
+.idea/
