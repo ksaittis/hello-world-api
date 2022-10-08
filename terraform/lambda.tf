@@ -7,6 +7,14 @@ resource "aws_lambda_function" "get_user" {
 
   source_code_hash = filebase64sha256("../${path.module}/${var.lambdas_dir}/get_user_lambda.zip")
 
+  environment {
+    variables = {
+      DYNAMODB_TABLE_NAME = aws_dynamodb_table.users.name
+      REGION = data.aws_region.current.name
+      DATE_FORMAT = "%Y-%m-%d"
+    }
+  }
+
   tags = {
     Project = var.project_name
   }
@@ -20,6 +28,14 @@ resource "aws_lambda_function" "put_user" {
   runtime = "python3.9"
 
   source_code_hash = filebase64sha256("../${path.module}/${var.lambdas_dir}/put_user_lambda.zip")
+
+  environment {
+    variables = {
+      DYNAMODB_TABLE_NAME = aws_dynamodb_table.users.name
+      REGION = data.aws_region.current.name
+      DATE_FORMAT = "%Y-%m-%d"
+    }
+  }
 
   tags = {
     Project = var.project_name

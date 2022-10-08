@@ -1,7 +1,11 @@
-.PHONY: build plan apply destroy
+.PHONY: build plan apply destroy test
+test:
+	pip3 install -r ./python/test/requirements.txt
+	python3 -m unittest discover python/test
 build:
-	zip -j lambdas/put_user_lambda.zip python/hello-world/put_user_lambda.py
-	zip -j lambdas/get_user_lambda.zip python/hello-world/get_user_lambda.py
+	mkdir -p ./lambdas
+	zip -j lambdas/put_user_lambda.zip python/src/put_user_lambda.py
+	zip -j lambdas/get_user_lambda.zip python/src/get_user_lambda.py
 plan:
 	terraform -chdir=terraform plan
 apply:
