@@ -1,6 +1,5 @@
 import json
 import logging
-import os
 
 from python.src.models.User import User, EventParsingError
 from python.src.utils.dynamodb_helper import DynamoDbHelper, DynamoDbOperationUnsuccessfulError
