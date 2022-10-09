@@ -42,7 +42,7 @@ class User:
     def from_event(cls, event):
         try:
             username = event['pathParameters']['username']
-            if 'body' in event and 'dateOfBirth' in json.loads(event['body']):
+            if event['body'] is not None and 'dateOfBirth' in json.loads(event['body']):
                 return cls(username=username,
                            date_of_birth=json.loads(event['body'])['dateOfBirth'])
 

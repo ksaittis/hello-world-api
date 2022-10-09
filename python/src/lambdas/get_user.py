@@ -39,10 +39,3 @@ def handler(event, context):
             'statusCode': 500,
             'body': json.dumps(f'Internal server error')
         }
-
-
-if __name__ == '__main__':
-    event = {"pathParameters": {'username': "Xena"}}
-    os.environ['DYNAMODB_TABLE_NAME'] = 'Users'
-    os.environ['AWS_PROFILE'] = 'development'
-    handler(event, None)
