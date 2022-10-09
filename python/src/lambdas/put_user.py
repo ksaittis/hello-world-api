@@ -9,7 +9,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
-def put_user(event, context):
+def handler(event, context):
     logger.info(event)
     try:
         user = User.from_event(event)

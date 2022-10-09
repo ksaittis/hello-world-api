@@ -3,12 +3,14 @@ test:
 	pip3 install -r ./python/test/requirements.txt
 	python3 -m unittest discover python/test
 build:
-	mkdir -p ./lambdas
-	zip -j package/put_user_lambda.zip python/src/put_user_lambda.py
-	zip -j package/get_user_lambda.zip python/src/get_user_lambda.py
+	mkdir -p ./package
+	rm -rf package/*
+	zip -r package/hello-world.zip python/src/* -x python/src/__pycache__/\* -x python/src/models/__pycache__/\*
 plan:
 	terraform -chdir=terraform plan
-apply:
+tf_apply:
 	terraform -chdir=terraform apply
+# Builds the lambda package and runs terraform apply
+apply: build tf_apply
 destroy:
 	terraform -chdir=terraform destroy

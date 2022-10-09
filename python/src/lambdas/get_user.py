@@ -8,7 +8,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
-def get_user(event, context):
+def handler(event, context):
     logger.info(event)
 
     try:
