@@ -17,9 +17,5 @@ terraform {
       source  = "hashicorp/aws"
       version = ">=2.51.0"
     }
-    sops = {
-      source = "carlpett/sops"
-      version = ">=0.5.0"
-    }
   }
 }
