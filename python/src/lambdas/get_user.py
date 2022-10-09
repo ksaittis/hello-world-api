@@ -20,7 +20,7 @@ def handler(event, context):
 
             return {
                 'statusCode': 200,
-                'body': json.dumps(user.get_greeting())
+                'body': json.dumps({"message": user.get_greeting()})
             }
 
         return {
