@@ -17,3 +17,8 @@ variable "project_name" {
   type = string
   default = "hello-world"
 }
+
+variable "dynamodb_table_name" {
+  type = string
+  default = "Users"
+}
