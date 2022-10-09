@@ -5,18 +5,18 @@ import boto3
 from python.src.models.User import User
 
 
-class DynamoDbError(Exception):
+class DynamoDbOperationUnsuccessfulError(Exception):
     pass
 
 
-class DynamoDbOperationUnsuccessfulError(Exception):
+class UserNotFoundError(Exception):
     pass
 
 
 class DynamoDbHelper:
 
     def __init__(self):
-        self.dynamodb_client = boto3.client('dynamodb', region_name=os.environ['REGION'])
+        self.dynamodb_client = boto3.client('dynamodb', region_name=os.getenv('REGION', 'eu-west-1'))
 
     def put_user(self, user: User) -> None:
         try:
@@ -36,8 +36,8 @@ class DynamoDbHelper:
 
             raise DynamoDbOperationUnsuccessfulError
 
-        except Exception:
-            raise DynamoDbError
+        except Exception as error:
+            raise error
 
     def get_user(self, user: User) -> User:
         try:
@@ -50,10 +50,12 @@ class DynamoDbHelper:
                 }
             )
             if dynamodb_get_item_response['ResponseMetadata']['HTTPStatusCode'] == 200:
-                date_of_birth = dynamodb_get_item_response['Item']['dateOfBirth']['S']
-                return User(username=user.username.value, date_of_birth=date_of_birth)
+                if 'Item' in dynamodb_get_item_response and 'dateOfBirth' in dynamodb_get_item_response['Item']:
+                    date_of_birth = dynamodb_get_item_response['Item']['dateOfBirth']['S']
+                    return User(username=user.username.value, date_of_birth=date_of_birth)
 
+                raise UserNotFoundError
             raise DynamoDbOperationUnsuccessfulError
 
-        except Exception:
-            raise DynamoDbError
+        except Exception as error:
+            raise error
