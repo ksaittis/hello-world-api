@@ -42,6 +42,44 @@ resource "aws_lambda_function" "put_user" {
   }
 }
 
+resource "aws_cloudwatch_log_group" "get_user" {
+  name              = "/aws/lambda/${aws_lambda_function.get_user.function_name}"
+  retention_in_days = 1
+}
+
+resource "aws_cloudwatch_log_group" "put_user" {
+  name              = "/aws/lambda/${aws_lambda_function.put_user.function_name}"
+  retention_in_days = 1
+}
+
+resource "aws_iam_policy" "lambda_cloudwatch_logging" {
+  name        = "lambda_cloudwatch_logging"
+  path        = "/"
+  description = "IAM policy for logging from a lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_logs" {
+  role       = aws_iam_role.lambda.name
+  policy_arn = aws_iam_policy.lambda_cloudwatch_logging.arn
+}
+
 resource "aws_iam_role" "lambda" {
   name = "hello-world-lambda-role"
 
