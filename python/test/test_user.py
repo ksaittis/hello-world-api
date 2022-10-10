@@ -22,7 +22,7 @@ class TestUser(unittest.TestCase):
     def test_it_should_be_able_to_create_user_from_event_without_body(self):
         # Given
         expected_username = "Kostas"
-        event = {"pathParameters": {"username": expected_username}}
+        event = {"pathParameters": {"username": expected_username}, "body": None}
 
         # When
         user = User.from_event(event)
