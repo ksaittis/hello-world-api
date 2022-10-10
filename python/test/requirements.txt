@@ -1,2 +1,2 @@
 freezegun==1.2.2
-moto[dynamodb2]==4.0.7
+moto[dynamodb]==4.0.7
