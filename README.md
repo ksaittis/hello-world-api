@@ -3,6 +3,7 @@
 
 Project containing code and infrastructure as code used to deploy aws resources for a simply api which stores a username and a date of birth in a database. Deploys lambda functions, api gateways and dynamodb table as a backend.
 
+![Hello World API](diagrams/hello-world-api.png)
 
 ## Installing / Getting started
 
