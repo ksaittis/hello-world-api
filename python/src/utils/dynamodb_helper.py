@@ -1,3 +1,4 @@
+import logging
 import os
 
 import boto3
@@ -41,6 +42,12 @@ class DynamoDbHelper:
             raise DynamoDbOperationUnsuccessfulError
 
         except ClientError as boto_error:
+            error_code = boto_error.response['Error']['Code']
+            error_msg = boto_error.response['Error']['Message']
+            if error_code == 'ResourceNotFoundException':
+                logging.warning(f"Dynamodb table {table_name} not found")
+            else:
+                logging.warning(f"{error_code}:{error_msg}")
             raise boto_error
         except Exception as error:
             raise error
@@ -64,6 +71,13 @@ class DynamoDbHelper:
             raise DynamoDbOperationUnsuccessfulError
 
         except ClientError as boto_error:
+            error_code = boto_error.response['Error']['Code']
+            error_msg = boto_error.response['Error']['Message']
+            if error_code == 'ResourceNotFoundException':
+                logging.warning(f"Dynamodb table {table_name} not found")
+            else:
+                logging.warning(f"{error_code}:{error_msg}")
+
             raise boto_error
         except Exception as error:
             raise error
