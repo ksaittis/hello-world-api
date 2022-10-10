@@ -92,6 +92,6 @@ resource "aws_api_gateway_stage" "v1" {
   stage_name = "v1"
 }
 
-output "invoke_url" {
-  value = aws_api_gateway_stage.v1.invoke_url
+output "api_invoke_url" {
+  value = "${aws_api_gateway_stage.v1.invoke_url}${aws_api_gateway_resource.username_path_param.path}"
 }

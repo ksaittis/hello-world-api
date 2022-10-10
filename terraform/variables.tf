@@ -5,10 +5,20 @@ variable "rest_api_name" {
 
 variable "lambdas_dir" {
   type = string
-  default = "lambdas"
+  default = "package"
+}
+
+variable "lambda_filename" {
+  type = string
+  default = "hello-world.zip"
 }
 
 variable "project_name" {
   type = string
   default = "hello-world"
+}
+
+variable "dynamodb_table_name" {
+  type = string
+  default = "Users"
 }

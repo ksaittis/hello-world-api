@@ -15,4 +15,4 @@
 .settings
 .idea/
 
-**/lambdas/**
+**/package/**
