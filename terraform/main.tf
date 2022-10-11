@@ -8,8 +8,8 @@ terraform {
   backend "s3" {
     profile = "development"
     region  = "eu-west-1"
-    bucket  = "navenio-global-terraform"
-    key     = "infrastructure/testing/helloworld/terraform.tfstate"
+    bucket  = "kostas-terraform-playground"
+    key     = "infrastructure/project/hello-world/terraform.tfstate"
     encrypt = true
   }
   required_providers {

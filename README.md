@@ -83,3 +83,9 @@ will be notified with some information about the failure along with some informa
 For example if the dynamodb is missing that will trigger an internal server error and a critical log which 
 will trigger the following flow
 ![Hello World API](diagrams/monitoring.png)
+
+## Alert
+
+Terraform currently deploys only a single cloudwatch alarms which triggers if the number of lambda invocations is 
+higher than 10 in one minute (as we are not expecting to have many users as of now and we want to be notified if someone 
+is spamming our api which can lead to high aws bills)
