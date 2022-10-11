@@ -22,3 +22,8 @@ variable "dynamodb_table_name" {
   type = string
   default = "Users"
 }
+
+variable "lambda_failure_notify_email" {
+  type = string
+  default = "ksaittis@gmail.com"
+}
