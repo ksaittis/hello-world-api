@@ -1,6 +1,8 @@
 import json
 import logging
 
+from botocore.exceptions import ClientError
+
 from python.src.models.User import User, EventParsingError
 from python.src.utils.dynamodb_helper import DynamoDbHelper, DynamoDbOperationUnsuccessfulError, UserNotFoundError
 
@@ -27,13 +29,12 @@ def handler(event, context):
             'statusCode': 400,
             'body': json.dumps(f'Bad Request')
         }
-    except (EventParsingError, DynamoDbOperationUnsuccessfulError,
-            DynamoDbOperationUnsuccessfulError, UserNotFoundError):
+    except (EventParsingError, DynamoDbOperationUnsuccessfulError, UserNotFoundError):
         return {
             'statusCode': 400,
             'body': json.dumps(f'Bad Request')
         }
-    except Exception:
+    except (Exception, ClientError):
         return {
             'statusCode': 500,
             'body': json.dumps(f'Internal server error')
