@@ -65,7 +65,7 @@ resource "aws_lambda_permission" "put_user_apigw_lambda" {
 # Monitoring Lambda
 resource "aws_lambda_permission" "allow_cloudwatch_invoke_monitoring_lambda" {
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.monitoring.arn
+  function_name = aws_lambda_function.monitoring.function_name
   principal     = "logs.${data.aws_region.current.name}.amazonaws.com"
 
   for_each = toset([
@@ -73,15 +73,8 @@ resource "aws_lambda_permission" "allow_cloudwatch_invoke_monitoring_lambda" {
     aws_cloudwatch_log_group.put_user.arn
   ])
 
-  source_arn = each.value
+  source_arn = "${each.value}:*"
 }
-
-#resource "aws_lambda_permission" "allow_cloudwatch_invoke_monitoring_lambda" {
-#  action        = "lambda:InvokeFunction"
-#  function_name = aws_lambda_function.monitoring.arn
-#  principal     = "logs.${data.aws_region.current.name}.amazonaws.com"
-#  source_arn    = aws_cloudwatch_log_group.get_user.arn
-#}
 
 resource "aws_lambda_function" "monitoring" {
   function_name = "notify_on_error"
