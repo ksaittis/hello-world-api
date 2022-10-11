@@ -79,8 +79,8 @@ resource "aws_lambda_permission" "allow_cloudwatch_invoke_monitoring_lambda" {
 resource "aws_lambda_function" "monitoring" {
   function_name = "notify_on_error"
   filename      = local.lambda_filepath
-  role          = aws_iam_role.api_lambda.arn
-  handler       = "python.src.lambdas.notify_on_error.handler"
+  role          = aws_iam_role.monitoring_lambda.arn
+  handler       = "python.src.lambdas.monitoring.handler"
   runtime       = "python3.9"
 
   source_code_hash = filebase64sha256(local.lambda_filepath)
