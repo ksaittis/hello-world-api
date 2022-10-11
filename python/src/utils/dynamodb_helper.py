@@ -79,5 +79,6 @@ class DynamoDbHelper:
                 logging.warning(f"{error_code}:{error_msg}")
 
             raise boto_error
-        except Exception as error:
-            raise error
+
+        except Exception:
+            raise
