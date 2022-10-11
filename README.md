@@ -74,3 +74,12 @@ Type: `String`
 Default: `Users`
 
 Dynamodb table name where the users info is stored
+
+## Monitoring
+
+Certain log patterns (?ERROR ?CRITICAL ?5xx) will trigger the cloudwatch log subscription which in turn will trigger
+a downstream lambda called notify_on_error which will publish a message to an sns topic. Users subscribed to this topic 
+will be notified with some information about the failure along with some information about the error. 
+For example if the dynamodb is missing that will trigger an internal server error and a critical log which 
+will trigger the following flow
+![Hello World API](diagrams/monitoring.png)

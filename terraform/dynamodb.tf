@@ -15,7 +15,7 @@ resource "aws_dynamodb_table" "users" {
 
 resource "aws_iam_role_policy" "modify_dynamodb" {
   name = "lambda_modify_dynamodb_policy"
-  role = aws_iam_role.lambda.id
+  role = aws_iam_role.api_lambda.id
 
   policy = jsonencode({
     Version = "2012-10-17"

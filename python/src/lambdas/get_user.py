@@ -34,8 +34,14 @@ def handler(event, context):
             'statusCode': 400,
             'body': json.dumps(f'Bad Request')
         }
-    except (Exception, ClientError):
-        return {
-            'statusCode': 500,
-            'body': json.dumps(f'Internal server error')
-        }
+
+    except ClientError as error:
+        logging.error(
+            f"Boto client error: {error.response['Error']['Code']}, message: {error.response['Error']['Message']}")
+    except Exception as e:
+        logging.error(f"Internal server error, {e}")
+
+    return {
+        'statusCode': 500,
+        'body': json.dumps(f'Internal server error')
+    }

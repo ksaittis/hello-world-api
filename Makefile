@@ -5,7 +5,7 @@ test:
 build:
 	mkdir -p ./package
 	rm -rf package/*
-	zip -r package/hello-world.zip python/src/* -x python/src/__pycache__/\* -x python/src/models/__pycache__/\*
+	zip -r package/hello-world.zip python/src/* -x python/src/__pycache__/\* -x python/src/models/__pycache__/\* -x python/src/utils/__pycache__/\*
 plan:
 	terraform -chdir=terraform plan
 tf_apply:
