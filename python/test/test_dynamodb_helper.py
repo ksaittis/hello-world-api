@@ -1,3 +1,4 @@
+import logging
 import unittest
 import boto3
 import moto
@@ -5,6 +6,8 @@ from botocore.exceptions import ClientError
 
 from python.src.models.User import User
 from python.src.utils.dynamodb_helper import DynamoDbHelper, UserNotFoundError, DynamoDbOperationUnsuccessfulError
+
+logging.disable(logging.CRITICAL)
 
 
 @moto.mock_dynamodb
@@ -93,7 +96,9 @@ class TestDynamo(unittest.TestCase):
         db = DynamoDbHelper()
 
         # Then
-        self.assertRaises(ClientError, lambda: db.put_user(User("Kostas", "1990-01-01"), table_name="CorrectTable"))
+        with self.assertRaises(ClientError) as cm:
+            db.get_user(User("Kostas", "1990-01-01"), table_name="CorrectTable")
+            self.assertEqual('CRITICAL:root:Dynamodb table CorrectTable not found', str(cm.exception))
 
     def test_it_should_raise_client_error_when_table_not_found_while_getting_user(self):
         # Given
@@ -119,4 +124,6 @@ class TestDynamo(unittest.TestCase):
         db = DynamoDbHelper()
 
         # Then
-        self.assertRaises(ClientError, lambda: db.get_user(User("Kostas", "1990-01-01"), table_name="CorrectTable"))
+        with self.assertRaises(ClientError) as cm:
+            db.get_user(User("Kostas", "1990-01-01"), table_name="CorrectTable")
+            self.assertEqual('CRITICAL:root:Dynamodb table CorrectTable not found', str(cm.exception))
