@@ -26,3 +26,25 @@ resource "aws_cloudwatch_log_subscription_filter" "failure_notification" {
   destination_arn = aws_lambda_function.monitoring.arn
   depends_on      = [aws_lambda_permission.allow_cloudwatch_invoke_monitoring_lambda]
 }
+
+resource "aws_cloudwatch_metric_alarm" "lambda_invocation" {
+  alarm_name          = "${each.value}_lambda_invocation_alarm"
+  alarm_description   = "This metric monitors the number of lambda invocations"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = 1
+  metric_name         = "Invocations"
+  namespace           = "AWS/Lambda"
+  period              = 60
+  statistic           = "Sum"
+  unit                = "Count"
+  threshold           = 10
+
+  for_each = toset([
+    aws_lambda_function.get_user.function_name,
+    aws_lambda_function.put_user.function_name
+  ])
+  dimensions = {
+    FunctionName = each.value
+  }
+  alarm_actions = [aws_sns_topic.lambda_failures.arn]
+}
