@@ -15,11 +15,12 @@ resource "aws_cloudwatch_log_group" "monitoring" {
 
 
 resource "aws_cloudwatch_log_subscription_filter" "failure_notification" {
-  name     = "${aws_lambda_function.monitoring.function_name}_log_subscription"
   for_each = toset([
     aws_cloudwatch_log_group.get_user.name,
     aws_cloudwatch_log_group.put_user.name
   ])
+
+  name           = "${aws_lambda_function.monitoring.function_name}_log_subscription"
   log_group_name = each.value
 
   filter_pattern  = "?ERROR ?CRITICAL ?5xx"
@@ -28,6 +29,11 @@ resource "aws_cloudwatch_log_subscription_filter" "failure_notification" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "lambda_invocation" {
+  for_each = toset([
+    aws_lambda_function.get_user.function_name,
+    aws_lambda_function.put_user.function_name
+  ])
+
   alarm_name          = "${each.value}_lambda_invocation_alarm"
   alarm_description   = "This metric monitors the number of lambda invocations"
   comparison_operator = "GreaterThanThreshold"
@@ -39,10 +45,6 @@ resource "aws_cloudwatch_metric_alarm" "lambda_invocation" {
   unit                = "Count"
   threshold           = 10
 
-  for_each = toset([
-    aws_lambda_function.get_user.function_name,
-    aws_lambda_function.put_user.function_name
-  ])
   dimensions = {
     FunctionName = each.value
   }
