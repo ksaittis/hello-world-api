@@ -6,8 +6,8 @@ from botocore.exceptions import ClientError
 from python.src.models.user import User, EventParsingError
 from python.src.utils.dynamodb_helper import DynamoDbHelper, DynamoDbOperationUnsuccessfulError, UserNotFoundError
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def handler(event, context):
@@ -17,6 +17,7 @@ def handler(event, context):
         user = User.from_event(event)
 
         if not user.is_username_valid():
+            logger.warning(f"Username not valid format: {user.username.value}")
             return {
                 'statusCode': 400,
                 'body': json.dumps(f'Bad Request')

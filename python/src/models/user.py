@@ -49,3 +49,6 @@ class User:
             return cls(username=username)
         except Exception:
             raise EventParsingError
+
+    def __repr__(self):
+        return f"<User username:{self.username} birthdate:{self.birthdate}>"
