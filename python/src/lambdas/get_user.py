@@ -16,19 +16,20 @@ def handler(event, context):
     try:
         user = User.from_event(event)
 
-        if user.is_username_valid():
-            db_helper = DynamoDbHelper()
-            user = db_helper.get_user(user)
-
+        if not user.is_username_valid():
             return {
-                'statusCode': 200,
-                'body': json.dumps({"message": user.get_greeting()})
+                'statusCode': 400,
+                'body': json.dumps(f'Bad Request')
             }
 
+        db_helper = DynamoDbHelper()
+        user = db_helper.get_user(user)
+
         return {
-            'statusCode': 400,
-            'body': json.dumps(f'Bad Request')
+            'statusCode': 200,
+            'body': json.dumps({"message": user.get_greeting()})
         }
+
     except (EventParsingError, DynamoDbOperationUnsuccessfulError, UserNotFoundError):
         return {
             'statusCode': 400,
