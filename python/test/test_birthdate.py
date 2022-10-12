@@ -3,7 +3,7 @@ import unittest
 from freezegun import freeze_time
 from freezegun.api import FakeDate
 
-from python.src.models.Birthdate import *
+from python.src.models.birthdate import *
 
 
 class TestBirthdate(unittest.TestCase):

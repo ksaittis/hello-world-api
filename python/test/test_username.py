@@ -1,6 +1,6 @@
 import unittest
 
-from python.src.models.Username import *
+from python.src.models.username import *
 
 
 class TestBirthdate(unittest.TestCase):

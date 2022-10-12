@@ -1,6 +1,6 @@
 import unittest
 
-from python.src.models.User import User
+from python.src.models.user import User
 
 
 class TestUser(unittest.TestCase):

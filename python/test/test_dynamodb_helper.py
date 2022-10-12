@@ -4,7 +4,7 @@ import boto3
 import moto
 from botocore.exceptions import ClientError
 
-from python.src.models.User import User
+from python.src.models.user import User
 from python.src.utils.dynamodb_helper import DynamoDbHelper, UserNotFoundError, DynamoDbOperationUnsuccessfulError
 
 logging.disable(logging.CRITICAL)

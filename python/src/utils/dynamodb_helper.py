@@ -4,7 +4,7 @@ import os
 import boto3
 from botocore.exceptions import ClientError
 
-from python.src.models.User import User
+from python.src.models.user import User
 
 
 class DynamoDbOperationUnsuccessfulError(Exception):
