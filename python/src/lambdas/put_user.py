@@ -15,20 +15,21 @@ def handler(event, context):
     try:
         user = User.from_event(event)
 
-        if user.is_valid():
-            db_helper = DynamoDbHelper()
-            db_helper.put_user(user)
-
-            # If no exceptions were raised so far then operation was most likely successful
+        if not user.is_valid():
             return {
-                'statusCode': 204,
-                'body': ""
+                'statusCode': 400,
+                'body': json.dumps(f'Bad Request')
             }
 
+        db_helper = DynamoDbHelper()
+        db_helper.put_user(user)
+
+        # If no exceptions were raised so far then operation was most likely successful
         return {
-            'statusCode': 400,
-            'body': json.dumps(f'Bad Request')
+            'statusCode': 204,
+            'body': ""
         }
+
     except (EventParsingError, DynamoDbOperationUnsuccessfulError):
         return {
             'statusCode': 400,
