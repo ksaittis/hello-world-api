@@ -1,7 +1,7 @@
 import json
 
-from python.src.models.Birthdate import Birthdate
-from python.src.models.Username import Username
+from python.src.models.birthdate import Birthdate
+from python.src.models.username import Username
 
 
 class EventParsingError(Exception):

@@ -3,7 +3,7 @@ import logging
 
 from botocore.exceptions import ClientError
 
-from python.src.models.User import User, EventParsingError
+from python.src.models.user import User, EventParsingError
 from python.src.utils.dynamodb_helper import DynamoDbHelper, DynamoDbOperationUnsuccessfulError, UserNotFoundError
 
 logger = logging.getLogger()
