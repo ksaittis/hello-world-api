@@ -24,7 +24,7 @@ resource "aws_cloudwatch_log_subscription_filter" "failure_notification" {
 
   filter_pattern  = "?ERROR ?CRITICAL ?5xx"
   destination_arn = aws_lambda_function.monitoring.arn
-  depends_on      = [aws_lambda_permission.allow_cloudwatch_invoke_monitoring_lambda]
+  depends_on      = [aws_lambda_permission.allow_cloudwatch_invoke_monitoring_lambda_for_get_user_log_group]
 }
 
 resource "aws_cloudwatch_metric_alarm" "lambda_invocation" {
