@@ -16,3 +16,4 @@
 .idea/
 
 **/package/**
+**/__pycache__
