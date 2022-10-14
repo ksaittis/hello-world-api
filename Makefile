@@ -6,11 +6,18 @@ build:
 	mkdir -p ./package
 	rm -rf package/*
 	zip -r package/hello-world.zip python/src/* -x python/src/__pycache__/\* -x python/src/models/__pycache__/\* -x python/src/utils/__pycache__/\*
-plan:
+init:
+	[ ! -d "terraform/.terraform" ] && terraform -chdir=terraform init
+
+tf_plan:
 	terraform -chdir=terraform plan
+
 tf_apply:
 	terraform -chdir=terraform apply
-# Builds the lambda package and runs terraform apply
-apply: build tf_apply
-destroy:
+
+tf_destroy:
 	terraform -chdir=terraform destroy
+
+plan: init build tf_plan
+apply: init build tf_apply
+destroy: init tf_destroy
